@@ -1,0 +1,4 @@
+com/firstAPI/firstAPI/controller/ProdutoController.class
+com/firstAPI/firstAPI/repository/ProdutoRepository.class
+com/firstAPI/firstAPI/FirstApiApplication.class
+com/firstAPI/firstAPI/model/Produto.class
