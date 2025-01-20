@@ -2,3 +2,4 @@
 /home/felipe/workspace/ApiSpringBoot/src/main/java/com/firstAPI/firstAPI/controller/ProdutoController.java
 /home/felipe/workspace/ApiSpringBoot/src/main/java/com/firstAPI/firstAPI/model/Produto.java
 /home/felipe/workspace/ApiSpringBoot/src/main/java/com/firstAPI/firstAPI/repository/ProdutoRepository.java
+/home/felipe/workspace/ApiSpringBoot/src/main/java/com/firstAPI/firstAPI/service/ProdutoService.java
