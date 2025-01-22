@@ -1,5 +1,5 @@
-com/firstAPI/firstAPI/controller/ProdutoController.class
-com/firstAPI/firstAPI/repository/ProdutoRepository.class
-com/firstAPI/firstAPI/FirstApiApplication.class
-com/firstAPI/firstAPI/service/ProdutoService.class
-com/firstAPI/firstAPI/model/Produto.class
+com/firstAPI/service/ProdutoService.class
+com/firstAPI/controller/ProdutoController.class
+com/firstAPI/FirstApiApplication.class
+com/firstAPI/model/Produto.class
+com/firstAPI/repository/ProdutoRepository.class

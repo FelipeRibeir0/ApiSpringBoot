@@ -1,7 +1,7 @@
-package com.firstAPI.firstAPI.controller;
+package com.firstAPI.controller;
 
-import com.firstAPI.firstAPI.model.Produto;
-import com.firstAPI.firstAPI.service.ProdutoService;
+import com.firstAPI.model.Produto;
+import com.firstAPI.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,17 +22,14 @@ public class ProdutoController {
         return ResponseEntity.ok(produtoSalvo);
     }
 
-    // Listar todos os produtos
     @GetMapping
-    public ResponseEntity<List<Produto>> listarProdutos() {
-        List<Produto> produtos = produtoService.listarTodos();
-        return ResponseEntity.ok(produtos);
-    }
-
-    // Buscar produtos pelo nome
-    @GetMapping("/nome")
-    public ResponseEntity<List<Produto>> listarProdutosPorNome(@RequestParam String nome) {
-        List<Produto> produtos = produtoService.buscarPorNome(nome);
+    public ResponseEntity<List<Produto>> listarProdutos(@RequestParam(required = false) String nome) {
+        List<Produto> produtos;
+        if (nome != null && !nome.isEmpty()) {
+            produtos = produtoService.buscarPorNome(nome);
+        } else {
+            produtos = produtoService.listarTodos();
+        }
         if (produtos.isEmpty()) {
             return ResponseEntity.notFound().build();
         }

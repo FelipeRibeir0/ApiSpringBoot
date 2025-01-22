@@ -1,7 +1,7 @@
-package com.firstAPI.firstAPI.service;
+package com.firstAPI.service;
 
-import com.firstAPI.firstAPI.model.Produto;
-import com.firstAPI.firstAPI.repository.ProdutoRepository;
+import com.firstAPI.model.Produto;
+import com.firstAPI.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;

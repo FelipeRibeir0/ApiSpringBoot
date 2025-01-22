@@ -1,4 +1,4 @@
-package com.firstAPI.firstAPI.model;
+package com.firstAPI.model;
 
 import jakarta.persistence.*;
 
