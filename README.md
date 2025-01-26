@@ -1,26 +1,58 @@
-# **API de Gerenciamento de Produtos**
+<h1 align="center">
+<br />
+  <img
+    src="./_docs/assets/icon.png"
+    alt="API SPRING BOOT"
+    width="150"
+  />
+  <br />
+  <b>API de Gerenciamento de Produtos</b>
+  <br />
+  <sub><sup><b>(PRODUCTS-API)</b></sup></sub>
+  <br />
+</h1>
 
-## **Descrição Geral**
-Esta API foi desenvolvida em **Java 21** com **Spring Boot** para gerenciar produtos. Ela oferece endpoints RESTful que permitem realizar operações CRUD completas (Criar, Ler, Atualizar, Excluir) em um banco de dados em memória (**H2**).
+<p align="center">
+  Uma API RESTful desenvolvida com Spring Boot para gerenciamento de produtos. Essa aplicação foi projetada para operações básicas de CRUD (Create, Read, Update e Delete) utilizando Java 21, banco de dados H2 e as melhores práticas do Spring Framework.
+</p>
 
-⚠️ **Nota**: A API não inclui autenticação ou segurança, sendo destinada para fins de aprendizado e testes.
+<p align="center">
+  <br />
+  <img src="./_docs/assets/api_preview.png" alt="API Preview" 
+height="350"   
+/>
+</p>
 
 ---
 
-## **Configuração do Ambiente**
+## 🚀 Descrição Geral
+
+Essa API permite:
+- Criar novos produtos no sistema.
+- Buscar todos os produtos ou um produto específico por ID.
+- Atualizar total ou parcialmente produtos existentes.
+- Excluir produtos do banco de dados.
+
+Foi implementada usando Spring Data JPA para abstrair as operações de banco de dados e um banco H2 em memória para facilitar os testes locais. A API é totalmente documentada no arquivo README.
+
+---
+
+## 🖥️ **Configuração do Ambiente**
 
 ### Pré-requisitos
-- **Java 21** instalado
-- **Maven** instalado
-- IDE recomendada: **IntelliJ IDEA** (opcional)
+- [**Java 21**](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html): Certifique-se de que está instalado e configurado no ambiente.
+- [**Maven**](https://maven.apache.org/download.cgi): Necessário para gerenciar dependências e executar o projeto.
+- **IDE recomendada**: [**IntelliJ IDEA**](https://www.jetbrains.com/idea/download) (opcional, mas recomendado para melhor produtividade).
+
+---
 
 ### Configuração Inicial
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/seu-usuario/gerenciamento-produtos.git
-   cd gerenciamento-produtos
-   ```
 
+1. **Clone o repositório**:
+   ```bash
+   git clone https://github.com/FelipeRibeir0/ApiSpringBoot.git
+   cd ApiSpringBoot
+   
 2. Execute o projeto:
    ```bash
    mvn spring-boot:run
@@ -35,237 +67,86 @@ Esta API foi desenvolvida em **Java 21** com **Spring Boot** para gerenciar prod
    ```
    http://localhost:8080/h2-console
    ```
-    - **JDBC URL**: `jdbc:h2:mem:produtosdb`
-    - **Usuário**: `sa`
-    - **Senha**: *(deixe vazio)*
+   - **JDBC URL**: `jdbc:h2:mem:produtosdb`
+   - **Usuário**: `sa`
+   - **Senha**: *(deixe vazio)*
 
 ---
 
-## **Endpoints Disponíveis**
+## 🌐 Endpoints da API
 
-### **Base URL**
-```
-http://localhost:8080/produtos
-```
-
-### 1️⃣ **Criar Produto**
-**Endpoint**: `POST /produtos`  
-**Descrição**: Adiciona um novo produto ao banco de dados.  
-**Cabeçalhos**:
-- `Content-Type`: `application/json`
-
-**Body**:
-```json
-{
-  "nome": "Notebook",
-  "preco": 2500.0,
-  "quantidade": 10
-}
-```
-
-**Resposta** (201 Created):
-```json
-{
-  "id": 1,
-  "nome": "Notebook",
-  "preco": 2500.0,
-  "quantidade": 10
-}
-```
-
----
-
-### 2️⃣ **Listar Todos os Produtos**
-**Endpoint**: `GET /produtos`  
-**Descrição**: Retorna todos os produtos cadastrados.
-
-**Resposta** (200 OK):
-```json
-[
-  {
-    "id": 1,
-    "nome": "Notebook",
-    "preco": 2500.0,
-    "quantidade": 10
-  },
-  {
-    "id": 2,
-    "nome": "Mouse",
-    "preco": 100.0,
-    "quantidade": 50
-  }
-]
-```
+<table align="center">
+  <tr>
+    <th>Método</th>
+    <th>Endpoint</th>
+    <th>Descrição</th>
+  </tr>
+  <tr>
+    <td>GET</td>
+    <td>/produtos</td>
+    <td>Retorna a lista de todos os produtos. Aceita um parâmetro opcional de busca por nome.</td>
+  </tr>
+  <tr>
+    <td>GET</td>
+    <td>/produtos/{id}</td>
+    <td>Retorna os detalhes de um produto específico pelo ID.</td>
+  </tr>
+  <tr>
+    <td>POST</td>
+    <td>/produtos</td>
+    <td>Cria um novo produto no sistema.</td>
+  </tr>
+  <tr>
+    <td>PUT</td>
+    <td>/produtos/{id}</td>
+    <td>Atualiza completamente as informações de um produto existente.</td>
+  </tr>
+  <tr>
+    <td>PATCH</td>
+    <td>/produtos/{id}</td>
+    <td>Atualiza parcialmente as informações de um produto existente.</td>
+  </tr>
+  <tr>
+    <td>DELETE</td>
+    <td>/produtos/{id}</td>
+    <td>Exclui um produto do sistema pelo ID.</td>
+  </tr>
+</table>
 
 ---
 
-### 3️⃣ **Buscar Produtos por Nome**
-**Endpoint**: `GET /produtos?nome={nome}`  
-**Descrição**: Retorna produtos que contenham o nome informado (não diferencia maiúsculas de minúsculas).
+## 🛠️ Técnicas e Tecnologias Utilizadas
 
-**Exemplo de Requisição**:
-```
-GET /produtos?nome=notebook
-```
-
-**Resposta** (200 OK):
-```json
-[
-  {
-    "id": 1,
-    "nome": "Notebook",
-    "preco": 2500.0,
-    "quantidade": 10
-  }
-]
-```
-
-**Resposta se nenhum produto for encontrado** (404 Not Found):
-```json
-{
-  "error": "No products found with the given name."
-}
-```
+  - <b>Spring Boot:</b> Framework principal da aplicação.<br />
+  - <b>Spring Data JPA:</b> Gerenciamento de dados usando ORM.<br />
+  - <b>Banco de Dados H2:</b> Banco em memória para testes.<br />
+  - <b>Java 21:</b> Linguagem utilizada.<br />
 
 ---
 
-### 4️⃣ **Buscar Produto por ID**
-**Endpoint**: `GET /produtos/{id}`  
-**Descrição**: Retorna o produto correspondente ao ID informado.
+## 📂 Estrutura do Projeto
 
-**Exemplo de Requisição**:
-```
-GET /produtos/1
-```
-
-**Resposta** (200 OK):
-```json
-{
-  "id": 1,
-  "nome": "Notebook",
-  "preco": 2500.0,
-  "quantidade": 10
-}
-```
-
-**Resposta se o produto não for encontrado** (404 Not Found):
-```json
-{
-  "error": "Product not found."
-}
-```
-
----
-
-### 5️⃣ **Atualizar Produto (Completo)**
-**Endpoint**: `PUT /produtos/{id}`  
-**Descrição**: Atualiza completamente os dados de um produto com base no ID.
-
-**Body**:
-```json
-{
-  "nome": "Notebook Gamer",
-  "preco": 3000.0,
-  "quantidade": 5
-}
-```
-
-**Resposta** (200 OK):
-```json
-{
-  "id": 1,
-  "nome": "Notebook Gamer",
-  "preco": 3000.0,
-  "quantidade": 5
-}
-```
-
----
-
-### 6️⃣ **Atualizar Produto (Parcial)**
-**Endpoint**: `PATCH /produtos/{id}`  
-**Descrição**: Atualiza parcialmente os dados de um produto com base no ID.
-
-**Body**:
-```json
-{
-  "preco": 2800.0
-}
-```
-
-**Resposta** (200 OK):
-```json
-{
-  "id": 1,
-  "nome": "Notebook Gamer",
-  "preco": 2800.0,
-  "quantidade": 5
-}
-```
-
----
-
-### 7️⃣ **Excluir Produto**
-**Endpoint**: `DELETE /produtos/{id}`  
-**Descrição**: Remove o produto correspondente ao ID informado.
-
-**Exemplo de Requisição**:
-```
-DELETE /produtos/1
-```
-
-**Resposta** (204 No Content):  
-Nenhum corpo na resposta.
-
-**Resposta se o produto não for encontrado** (404 Not Found):
-```json
-{
-  "error": "Product not found."
-}
-```
-
----
-
-## **Modelo de Produto**
-
-O modelo usado na API é definido pela classe `Produto`:
-```java
-@Entity
-public class Produto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String nome;
-    private Double preco;
-    private Integer quantidade;
-
-    // Getters e Setters
-}
-```
-
----
-
-## **Estrutura do Projeto**
-O projeto segue uma estrutura padrão para aplicações Spring Boot:
-```
-src/
+```🌐
+src
 ├── main/
-│   ├── java/com/firstAPI/
-│   │   ├── controller/        # Controllers da API
-│   │   ├── model/             # Modelos de dados (entidades)
-│   │   ├── repository/        # Interfaces de repositórios (JPA)
-│   │   └── service/           # Regras de negócio
-│   └── resources/
-│       └── application.properties  # Configurações da aplicação
+│   ├── 📂 java/com/firstAPI/
+│   │   ├── 📂 Controller        [Definições de rotas e lógica básica da API]
+│   │   ├── 📂 Service           [Regras de negócio e validações]
+│   │   ├── 📂 Model             [Modelos de dados (Entidades)]
+│   │   ├── 📂 Repository        [Repositórios para abstração de acesso ao banco de dados]
+│   └── 📂 resources/
+│       └── 📂 static/ 
+
 ```
 
----
+# Considerações Finais
 
-## **Considerações Finais**
 Esta API foi desenvolvida como um exemplo prático para quem está aprendendo Spring Boot. Ela é simples, funcional e facilmente extensível.
 
 Possíveis melhorias futuras:
-- Adicionar autenticação com JWT.
-- Migrar para um banco de dados persistente (PostgreSQL, MongoDB, MySQL).
-- Adicionar testes unitários e de integração.
-- Implementar o Swagger na documentação.
+
+- 🔒 Adicionar autenticação com JWT.
+- 🛢️ Migrar para um banco de dados persistente (PostgreSQL, MongoDB, MySQL).
+- 🧪 Adicionar testes unitários e de integração.
+- 📄 Implementar o Swagger na documentação.  
+
