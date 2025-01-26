@@ -72,10 +72,25 @@ Foi implementada usando Spring Data JPA para abstrair as operações de banco de
    - **Senha**: *(deixe vazio)*
 
 ---
+# 📄 Documentação da API
+
+Este projeto disponibiliza uma API que pode ser acessada e testada diretamente através da documentação gerada pelo Swagger.
+
+## Acessando a documentação Swagger
+
+Após rodar a aplicação, a documentação do Swagger estará disponível na seguinte URL:
+[Swagger](http://localhost:8080/documentacao)
+
+### Passos para acessar a documentação:
+
+1. Certifique-se de que o projeto está rodando localmente ou em um ambiente de desenvolvimento.
+2. Abra seu navegador e acesse a URL: http://localhost:8080/documentacao
+3. Você verá a interface gráfica do Swagger UI, onde poderá explorar todos os endpoints da API e fazer chamadas de teste diretamente pela interface.
+---
 
 ## 🌐 Endpoints da API
 
-<table align="center">
+<table>
   <tr>
     <th>Método</th>
     <th>Endpoint</th>
@@ -148,5 +163,4 @@ Possíveis melhorias futuras:
 - 🔒 Adicionar autenticação com JWT.
 - 🛢️ Migrar para um banco de dados persistente (PostgreSQL, MongoDB, MySQL).
 - 🧪 Adicionar testes unitários e de integração.
-- 📄 Implementar o Swagger na documentação.  
 
