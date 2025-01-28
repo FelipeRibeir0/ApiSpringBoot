@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Entity
+@Table(name = "produtos")
 @Schema(description = "Modelo que representa um produto.")
 public class Produto {
 
@@ -11,15 +12,19 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Schema(description = "ID único do produto", example = "1")
+    @Column(name = "id")
     private Long id;
 
     @Schema(description = "Nome do produto", example = "Camiseta")
+    @Column(name = "nome")
     private String nome;
 
     @Schema(description = "Preço do produto", example = "29.99")
+    @Column(name = "preco")
     private Double preco;
 
     @Schema(description = "Quantidade do produto existente no estoque", example = "39")
+    @Column(name = "quantidade")
     private Integer quantidade;
     // Getters e Setters
 

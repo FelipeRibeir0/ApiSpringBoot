@@ -13,7 +13,7 @@
 </h1>
 
 <p align="center">
-  Uma API RESTful desenvolvida com Spring Boot para gerenciamento de produtos. Essa aplicação foi projetada para operações básicas de CRUD (Create, Read, Update e Delete) utilizando Java 21, banco de dados H2 e as melhores práticas do Spring Framework.
+  Uma API RESTful desenvolvida com Spring Boot para gerenciamento de produtos. Essa aplicação foi projetada para operações básicas de CRUD (Create, Read, Update e Delete) utilizando Java 21, banco de dados MySQL e as melhores práticas do Spring Framework.
 </p>
 
 <p align="center">
@@ -33,7 +33,7 @@ Essa API permite:
 - Atualizar total ou parcialmente produtos existentes.
 - Excluir produtos do banco de dados.
 
-Foi implementada usando Spring Data JPA para abstrair as operações de banco de dados e um banco H2 em memória para facilitar os testes locais. A API é totalmente documentada no arquivo README.
+Foi implementada usando Spring Data JPA para abstrair as operações de banco de dados e um banco persistente MySQL. A API é totalmente documentada no arquivo README e no Swagger.
 
 ---
 
@@ -63,12 +63,12 @@ Foi implementada usando Spring Data JPA para abstrair as operações de banco de
    http://localhost:8080
    ```
 
-4. Para acessar o console do banco de dados H2:
+4. Para acessar o console do banco de dados MySQL:
+   ```bash
+   mysql -u testeUsuarios -p
    ```
-   http://localhost:8080/h2-console
-   ```
-   - **JDBC URL**: `jdbc:h2:mem:produtosdb`
-   - **Usuário**: `sa`
+   - **JDBC URL**: `jdbc:mysql://localhost:3306/firstapi?useSSL=false&serverTimezone=UTC`
+   - **Usuário**: `testeUsuarios`
    - **Senha**: *(deixe vazio)*
 
 ---
@@ -134,7 +134,7 @@ Após rodar a aplicação, a documentação do Swagger estará disponível na se
 
   - <b>Spring Boot:</b> Framework principal da aplicação.<br />
   - <b>Spring Data JPA:</b> Gerenciamento de dados usando ORM.<br />
-  - <b>Banco de Dados H2:</b> Banco em memória para testes.<br />
+  - <b>Banco de Dados MySQL:</b> Banco de dados persistente.<br />
   - <b>Java 21:</b> Linguagem utilizada.<br />
 
 ---
@@ -161,6 +161,5 @@ Esta API foi desenvolvida como um exemplo prático para quem está aprendendo Sp
 Possíveis melhorias futuras:
 
 - 🔒 Adicionar autenticação com JWT.
-- 🛢️ Migrar para um banco de dados persistente (PostgreSQL, MongoDB, MySQL).
 - 🧪 Adicionar testes unitários e de integração.
 
