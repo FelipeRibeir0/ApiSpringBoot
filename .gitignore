@@ -1,0 +1,8 @@
+# Ignorar o arquivo application.properties
+application.properties
+
+# Ignorar diretórios e arquivos comuns em projetos Java
+/target/
+/.idea/
+/*.iml
+/logs/
