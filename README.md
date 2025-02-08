@@ -67,7 +67,6 @@ Foi implementada usando Spring Data JPA para abstrair as operações de banco de
    ```bash
    mysql -u testeUsuarios -p
    ```
-   - **JDBC URL**: `jdbc:mysql://localhost:3306/firstapi?useSSL=false&serverTimezone=UTC`
    - **Usuário**: `testeUsuarios`
    - **Senha**: *(deixe vazio)*
 
