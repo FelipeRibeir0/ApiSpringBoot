@@ -2,20 +2,25 @@ package com.productsAPI.service;
 
 import com.productsAPI.model.Produto;
 import com.productsAPI.repository.ProdutoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-
+import com.productsAPI.dto.ProdutoDTO;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ProdutoService {
 
-    @Autowired
-    private ProdutoRepository produtoRepository;
+    private final ProdutoRepository produtoRepository;
 
-    public Produto salvarProduto(Produto produto) {
+    public ProdutoService(ProdutoRepository produtoRepository) {
+        this.produtoRepository = produtoRepository;
+    }
+
+    public Produto salvarProduto(ProdutoDTO dto) {
+        Produto produto = new Produto();
+        produto.setNome(dto.getNome());
+        produto.setQuantidade(dto.getQuantidade());
+        produto.setPreco(dto.getPreco());
         return produtoRepository.save(produto);
     }
 
@@ -31,28 +36,28 @@ public class ProdutoService {
         return produtoRepository.findById(id);
     }
 
-    public Produto atualizarProduto(Long id, Produto produtoAtualizado) {
-        return produtoRepository.findById(id).map(produto -> {
-            produto.setNome(produtoAtualizado.getNome());
-            produto.setPreco(produtoAtualizado.getPreco());
-            produto.setQuantidade(produtoAtualizado.getQuantidade());
+    public Produto atualizarProduto(Long id, ProdutoDTO dto) {
+        Optional<Produto> produtoExistente = produtoRepository.findById(id);
+        if (produtoExistente.isPresent()) {
+            Produto produto = produtoExistente.get();
+            produto.setNome(dto.getNome());
+            produto.setQuantidade(dto.getQuantidade());
+            produto.setPreco(dto.getPreco());
             return produtoRepository.save(produto);
-        }).orElse(null);
+        }
+        return null;
     }
 
-    public Produto atualizarParcial(Long id, Produto produtoAtualizado) {
-        return produtoRepository.findById(id).map(produto -> {
-            if (StringUtils.hasText(produtoAtualizado.getNome())) {
-                produto.setNome(produtoAtualizado.getNome());
-            }
-            if (produtoAtualizado.getPreco() != null) {
-                produto.setPreco(produtoAtualizado.getPreco());
-            }
-            if (produtoAtualizado.getQuantidade() != null) {
-                produto.setQuantidade(produtoAtualizado.getQuantidade());
-            }
+    public Produto atualizarParcial(Long id, ProdutoDTO dto) {
+        Optional<Produto> produtoExistente = produtoRepository.findById(id);
+        if (produtoExistente.isPresent()) {
+            Produto produto = produtoExistente.get();
+            if (dto.getNome() != null) produto.setNome(dto.getNome());
+            if (dto.getQuantidade() != null) produto.setQuantidade(dto.getQuantidade());
+            if (dto.getPreco() != null) produto.setPreco(dto.getPreco());
             return produtoRepository.save(produto);
-        }).orElse(null);
+        }
+        return null;
     }
 
 

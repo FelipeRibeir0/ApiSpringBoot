@@ -1,23 +1,27 @@
 package com.productsAPI.controller;
 
+import com.productsAPI.dto.ProdutoDTO;
 import com.productsAPI.model.Produto;
 import com.productsAPI.service.ProdutoService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/produtos")
 public class ProdutoController {
 
     @Autowired
-    private ProdutoService produtoService;
+    private final ProdutoService produtoService;
+
+    public ProdutoController(ProdutoService produtoService) {
+        this.produtoService = produtoService;
+    }
 
     @Operation(summary = "Criar um novo produto", description = "Cria um novo produto com nome, quantidade e preço. Retorna o produto criado.")
     @ApiResponses(value = {
@@ -26,8 +30,8 @@ public class ProdutoController {
             @ApiResponse(responseCode = "409", description = "Produto já existe com os dados fornecidos")
     })
     @PostMapping
-    public ResponseEntity<Produto> criarProduto(@RequestBody Produto produto) {
-        Produto produtoSalvo = produtoService.salvarProduto(produto);
+    public ResponseEntity<Produto> criarProduto(@RequestBody ProdutoDTO dto) {
+        Produto produtoSalvo = produtoService.salvarProduto(dto);
         return ResponseEntity.status(201).body(produtoSalvo);
     }
 
@@ -37,14 +41,8 @@ public class ProdutoController {
             @ApiResponse(responseCode = "404", description = "Nenhum produto encontrado")
     })
     @GetMapping
-    public ResponseEntity<List<Produto>> listarProdutos(@Parameter(description = "Nome do produto para filtrar a busca") @RequestParam(defaultValue = "") String nome) {
-
-        List<Produto> produtos;
-        if (nome != null && !nome.isEmpty()) {
-            produtos = produtoService.buscarPorNome(nome);
-        } else {
-            produtos = produtoService.listarTodos();
-        }
+    public ResponseEntity<List<Produto>> listarProdutos() {
+        List<Produto> produtos = produtoService.listarTodos();
         if (produtos.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -58,9 +56,8 @@ public class ProdutoController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<Produto> listarProdutosPorId(@PathVariable Long id) {
-        return produtoService.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        Optional<Produto> produto = produtoService.buscarPorId(id);
+        return produto.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @Operation(summary = "Atualiza todos os atributos de um produto", description = "Substitui os atributos de um produto existente.")
@@ -69,8 +66,8 @@ public class ProdutoController {
             @ApiResponse(responseCode = "404", description = "Produto não encontrado")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Produto> editarProduto(@PathVariable Long id, @RequestBody Produto produtoAtualizado) {
-        Produto produtoEditado = produtoService.atualizarProduto(id, produtoAtualizado);
+    public ResponseEntity<Produto> editarProduto(@PathVariable Long id, @RequestBody ProdutoDTO dto) {
+        Produto produtoEditado = produtoService.atualizarProduto(id, dto);
         if (produtoEditado != null) {
             return ResponseEntity.ok(produtoEditado);
         }
@@ -83,8 +80,8 @@ public class ProdutoController {
             @ApiResponse(responseCode = "404", description = "Produto não encontrado")
     })
     @PatchMapping("/{id}")
-    public ResponseEntity<Produto> atualizarProdutoParcial(@PathVariable Long id, @RequestBody Produto produtoAtualizado) {
-        Produto produto = produtoService.atualizarParcial(id, produtoAtualizado);
+    public ResponseEntity<Produto> atualizarProdutoParcial(@PathVariable Long id, @RequestBody ProdutoDTO dto) {
+        Produto produto = produtoService.atualizarParcial(id, dto);
         if (produto != null) {
             return ResponseEntity.ok(produto);
         } else {
