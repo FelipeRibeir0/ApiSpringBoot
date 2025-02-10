@@ -1,6 +1,6 @@
-package com.firstAPI.repository;
+package com.productsAPI.repository;
 
-import com.firstAPI.model.Produto;
+import com.productsAPI.model.Produto;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.firstAPI.model;
+package com.productsAPI.model;
 
 import jakarta.persistence.*;
 import io.swagger.v3.oas.annotations.media.Schema;

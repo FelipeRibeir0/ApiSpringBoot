@@ -1,7 +1,7 @@
-package com.firstAPI.controller;
+package com.productsAPI.controller;
 
-import com.firstAPI.model.Produto;
-import com.firstAPI.service.ProdutoService;
+import com.productsAPI.model.Produto;
+import com.productsAPI.service.ProdutoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

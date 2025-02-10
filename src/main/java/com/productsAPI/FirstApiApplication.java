@@ -1,4 +1,4 @@
-package com.firstAPI;
+package com.productsAPI;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

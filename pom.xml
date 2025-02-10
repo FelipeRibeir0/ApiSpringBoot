@@ -8,10 +8,10 @@
 		<version>3.4.1</version>
 		<relativePath/>
 	</parent>
-	<groupId>com.firstAPI</groupId>
-	<artifactId>firstAPI</artifactId>
+	<groupId>com.productsAPI</groupId>
+	<artifactId>productsAPI</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>firstAPI</name>
+	<name>productsAPI</name>
 	<description>Minha primeira API utilizando Spring</description>
 
 	<properties>
