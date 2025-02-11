@@ -6,6 +6,7 @@ import com.productsAPI.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ public class UsuarioController {
             @ApiResponse(responseCode = "409", description = "Usuário já existe com os dados fornecidos")
     })
     @PostMapping("/cadastro")
-    public ResponseEntity<Usuario> cadastrar(@RequestBody UsuarioDTO dto) {
+    public ResponseEntity<Usuario> cadastrar(@Valid @RequestBody UsuarioDTO dto) {
         Usuario usuario = usuarioService.cadastrarUsuario(dto);
         return ResponseEntity.ok(usuario);
     }

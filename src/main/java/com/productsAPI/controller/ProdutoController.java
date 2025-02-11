@@ -6,6 +6,7 @@ import com.productsAPI.service.ProdutoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ public class ProdutoController {
             @ApiResponse(responseCode = "409", description = "Produto já existe com os dados fornecidos")
     })
     @PostMapping
-    public ResponseEntity<Produto> criarProduto(@RequestBody ProdutoDTO dto) {
+    public ResponseEntity<Produto> criarProduto(@Valid @RequestBody ProdutoDTO dto) {
         Produto produtoSalvo = produtoService.salvarProduto(dto);
         return ResponseEntity.status(201).body(produtoSalvo);
     }
@@ -66,7 +67,7 @@ public class ProdutoController {
             @ApiResponse(responseCode = "404", description = "Produto não encontrado")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Produto> editarProduto(@PathVariable Long id, @RequestBody ProdutoDTO dto) {
+    public ResponseEntity<Produto> editarProduto(@PathVariable Long id, @Valid @RequestBody ProdutoDTO dto) {
         Produto produtoEditado = produtoService.atualizarProduto(id, dto);
         if (produtoEditado != null) {
             return ResponseEntity.ok(produtoEditado);
@@ -80,7 +81,7 @@ public class ProdutoController {
             @ApiResponse(responseCode = "404", description = "Produto não encontrado")
     })
     @PatchMapping("/{id}")
-    public ResponseEntity<Produto> atualizarProdutoParcial(@PathVariable Long id, @RequestBody ProdutoDTO dto) {
+    public ResponseEntity<Produto> atualizarProdutoParcial(@PathVariable Long id, @Valid @RequestBody ProdutoDTO dto) {
         Produto produto = produtoService.atualizarParcial(id, dto);
         if (produto != null) {
             return ResponseEntity.ok(produto);
