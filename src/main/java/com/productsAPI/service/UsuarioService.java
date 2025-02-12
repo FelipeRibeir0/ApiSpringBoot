@@ -22,6 +22,7 @@ public class UsuarioService {
         }
 
         Usuario usuario = new Usuario();
+        usuario.setNome(dto.getNome());
         usuario.setEmail(dto.getEmail());
         usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
         usuario.setRole(dto.getRole());
