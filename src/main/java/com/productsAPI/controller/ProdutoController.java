@@ -30,7 +30,7 @@ public class ProdutoController {
             @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos para o produto"),
             @ApiResponse(responseCode = "409", description = "Produto já existe com os dados fornecidos")
     })
-    @PostMapping
+    @PostMapping(headers = "X-API-Version=v1")
     public ResponseEntity<Produto> criarProduto(@Valid @RequestBody ProdutoDTO dto) {
         Produto produtoSalvo = produtoService.salvarProduto(dto);
         return ResponseEntity.status(201).body(produtoSalvo);
@@ -41,7 +41,7 @@ public class ProdutoController {
             @ApiResponse(responseCode = "200", description = "Lista de produtos retornada com sucesso"),
             @ApiResponse(responseCode = "404", description = "Nenhum produto encontrado")
     })
-    @GetMapping
+    @GetMapping(headers = "X-API-Version=v1")
     public ResponseEntity<List<Produto>> listarProdutos() {
         List<Produto> produtos = produtoService.listarTodos();
         if (produtos.isEmpty()) {
@@ -55,7 +55,7 @@ public class ProdutoController {
             @ApiResponse(responseCode = "200", description = "Produto encontrado com sucesso"),
             @ApiResponse(responseCode = "404", description = "Produto não encontrado com o ID fornecido")
     })
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", headers = "X-API-Version=v1")
     public ResponseEntity<Produto> listarProdutosPorId(@PathVariable Long id) {
         Optional<Produto> produto = produtoService.buscarPorId(id);
         return produto.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
@@ -66,7 +66,7 @@ public class ProdutoController {
             @ApiResponse(responseCode = "200", description = "Produto atualizado com sucesso"),
             @ApiResponse(responseCode = "404", description = "Produto não encontrado")
     })
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", headers = "X-API-Version=v1")
     public ResponseEntity<Produto> editarProduto(@PathVariable Long id, @Valid @RequestBody ProdutoDTO dto) {
         Produto produtoEditado = produtoService.atualizarProduto(id, dto);
         if (produtoEditado != null) {
@@ -80,7 +80,7 @@ public class ProdutoController {
             @ApiResponse(responseCode = "200", description = "Produto parcialmente atualizado com sucesso"),
             @ApiResponse(responseCode = "404", description = "Produto não encontrado")
     })
-    @PatchMapping("/{id}")
+    @PatchMapping(value = "/{id}", headers = "X-API-Version=v1")
     public ResponseEntity<Produto> atualizarProdutoParcial(@PathVariable Long id, @Valid @RequestBody ProdutoDTO dto) {
         Produto produto = produtoService.atualizarParcial(id, dto);
         if (produto != null) {
@@ -95,7 +95,7 @@ public class ProdutoController {
             @ApiResponse(responseCode = "204", description = "Produto excluído com sucesso"),
             @ApiResponse(responseCode = "404", description = "Produto não encontrado")
     })
-    @DeleteMapping("/{id}")
+    @DeleteMapping(value = "/{id}", headers = "X-API-Version=v1")
     public ResponseEntity<Void> excluirProduto(@PathVariable Long id) {
         boolean deletado = produtoService.deletarProduto(id);
         if (deletado) {

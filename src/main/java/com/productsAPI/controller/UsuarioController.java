@@ -26,7 +26,7 @@ public class UsuarioController {
             @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos para o usuário"),
             @ApiResponse(responseCode = "409", description = "Usuário já existe com os dados fornecidos")
     })
-    @PostMapping("/cadastro")
+    @PostMapping(value = "/cadastro", headers = "X-API-Version=v1")
     public ResponseEntity<Usuario> cadastrar(@Valid @RequestBody UsuarioDTO dto) {
         Usuario usuario = usuarioService.cadastrarUsuario(dto);
         return ResponseEntity.ok(usuario);
