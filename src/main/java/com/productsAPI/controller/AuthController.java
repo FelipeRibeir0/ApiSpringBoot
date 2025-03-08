@@ -8,8 +8,10 @@ import com.productsAPI.utils.JwtUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,13 +38,20 @@ public class AuthController {
     })
     @PostMapping(value = "/login", headers = "X-API-Version=v1")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getSenha())
-        );
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getSenha())
+            );
 
-        String token = jwtUtil.generateToken(loginRequest.getEmail());
-        return ResponseEntity.ok(token);
+            String token = jwtUtil.generateToken(loginRequest.getEmail());
+            System.out.println("Token gerado: " + token);
+
+            return ResponseEntity.ok(token);
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas!");
+        }
     }
+
 
     @Operation(summary = "Criar um novo usuário", description = "Cria um novo usuário com nome, email e senha.")
     @ApiResponses(value = {
@@ -53,6 +62,6 @@ public class AuthController {
     @PostMapping(value = "/signup", headers = "X-API-Version=v1")
     public ResponseEntity<Usuario> signup(@Valid @RequestBody UsuarioDTO dto) {
         Usuario usuario = usuarioService.cadastrarUsuario(dto);
-        return ResponseEntity.ok(usuario);
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
     }
 }
