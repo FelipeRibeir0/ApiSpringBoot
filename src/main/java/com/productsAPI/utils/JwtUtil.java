@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.Date;
 
 @Component
@@ -16,7 +15,7 @@ public class JwtUtil {
     private static final SecretKey SECRET_KEY_SPEC = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
 
     public String generateToken(String username) {
-        long EXPIRATION_TIME = 3600000; // 1 hora
+        long EXPIRATION_TIME = 3600000; // 1 hour
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
@@ -27,7 +26,6 @@ public class JwtUtil {
 
     public boolean validateToken(String token) {
         try {
-            System.out.println("Token recebido: " + token);
             Jwts.parser()
                     .verifyWith(SECRET_KEY_SPEC)
                     .build()
@@ -39,7 +37,6 @@ public class JwtUtil {
     }
 
     public String getUsernameFromToken(String token) {
-        System.out.println("Token recebido na validação: " + token);
         return Jwts.parser()
                 .verifyWith(SECRET_KEY_SPEC)
                 .build()

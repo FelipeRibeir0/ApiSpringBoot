@@ -1,7 +1,7 @@
 package com.productsAPI.service;
 
 import com.productsAPI.utils.JwtUtil;
-import com.productsAPI.repository.UsuarioRepository;
+import com.productsAPI.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,25 +12,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
 
-    private final UsuarioRepository usuarioRepository;
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
-    private final PasswordEncoder passwordEncoder;
 
-    public AuthService(UsuarioRepository usuarioRepository, JwtUtil jwtUtil, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
-        this.usuarioRepository = usuarioRepository;
+    public AuthService(UserRepository userRepository, JwtUtil jwtUtil, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
         this.jwtUtil = jwtUtil;
         this.authenticationManager = authenticationManager;
-        this.passwordEncoder = passwordEncoder;
     }
 
-    public String login(String email, String senha) {
+    public String login(String email, String password) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(email, senha)
+                new UsernamePasswordAuthenticationToken(email, password)
         );
 
         if (!authentication.isAuthenticated()) {
-            throw new BadCredentialsException("Credenciais inválidas");
+            throw new BadCredentialsException("Invalid credentials");
         }
 
         return jwtUtil.generateToken(email);

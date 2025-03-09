@@ -1,9 +1,9 @@
 package com.productsAPI.controller;
 
 import com.productsAPI.dto.LoginRequest;
-import com.productsAPI.dto.UsuarioDTO;
-import com.productsAPI.model.Usuario;
-import com.productsAPI.service.UsuarioService;
+import com.productsAPI.dto.UserDTO;
+import com.productsAPI.model.User;
+import com.productsAPI.service.UserService;
 import com.productsAPI.utils.JwtUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,46 +22,46 @@ import jakarta.validation.Valid;
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
-    private final UsuarioService usuarioService;
+    private final UserService userService;
     private final JwtUtil jwtUtil;
 
-    public AuthController(AuthenticationManager authenticationManager, UsuarioService usuarioService, JwtUtil jwtUtil) {
+    public AuthController(AuthenticationManager authenticationManager, UserService userService, JwtUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
-        this.usuarioService = usuarioService;
+        this.userService = userService;
         this.jwtUtil = jwtUtil;
     }
 
-    @Operation(summary = "Autenticar usuário", description = "Autentica um usuário e retorna um token JWT.")
+    @Operation(summary = "Authenticate user", description = "Authenticates a user and returns a JWT token.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Usuário autenticado com sucesso e token gerado"),
-            @ApiResponse(responseCode = "401", description = "Credenciais inválidas")
+            @ApiResponse(responseCode = "200", description = "User successfully authenticated and token generated"),
+            @ApiResponse(responseCode = "401", description = "Invalid credentials")
     })
     @PostMapping(value = "/login", headers = "X-API-Version=v1")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getSenha())
+                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
             );
 
             String token = jwtUtil.generateToken(loginRequest.getEmail());
-            System.out.println("Token gerado: " + token);
+            System.out.println("Generated token: " + token);
 
             return ResponseEntity.ok(token);
         } catch (BadCredentialsException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas!");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials!");
         }
     }
 
 
-    @Operation(summary = "Criar um novo usuário", description = "Cria um novo usuário com nome, email e senha.")
+    @Operation(summary = "Create a new user", description = "Creates a new user with name, email, and password.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Usuário criado com sucesso"),
-            @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos para o usuário"),
-            @ApiResponse(responseCode = "409", description = "Usuário já existe com os dados fornecidos")
+            @ApiResponse(responseCode = "201", description = "User successfully created"),
+            @ApiResponse(responseCode = "400", description = "Invalid data provided for the user"),
+            @ApiResponse(responseCode = "409", description = "User already exists with the provided data")
     })
     @PostMapping(value = "/signup", headers = "X-API-Version=v1")
-    public ResponseEntity<Usuario> signup(@Valid @RequestBody UsuarioDTO dto) {
-        Usuario usuario = usuarioService.cadastrarUsuario(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
+    public ResponseEntity<User> signup(@Valid @RequestBody UserDTO dto) {
+        User user = userService.registerUser(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 }
