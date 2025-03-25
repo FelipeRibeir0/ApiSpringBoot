@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +29,7 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "Invalid data provided for the product"),
             @ApiResponse(responseCode = "409", description = "Product already exists with the provided data")
     })
+    @PreAuthorize("hasRole('CLIENT')")
     @PostMapping(headers = "X-API-Version=v1")
     public ResponseEntity<Product> createProduct(@Valid @RequestBody ProductDTO dto) {
         Product savedProduct = productService.saveProduct(dto);
@@ -39,6 +41,7 @@ public class ProductController {
             @ApiResponse(responseCode = "200", description = "Product list successfully returned"),
             @ApiResponse(responseCode = "404", description = "No products found")
     })
+    @PreAuthorize("hasAnyRole('CLIENT')")
     @GetMapping(headers = "X-API-Version=v1")
     public ResponseEntity<List<Product>> listProducts() {
         List<Product> products = productService.listAll();
@@ -53,6 +56,7 @@ public class ProductController {
             @ApiResponse(responseCode = "200", description = "Products successfully found"),
             @ApiResponse(responseCode = "404", description = "No products found with the provided name")
     })
+    @PreAuthorize("hasAnyRole('ADMIN', 'CLIENT')")
     @GetMapping(value = "/search", headers = "X-API-Version=v1")
     public ResponseEntity<List<Product>> findProductsByName(@RequestParam String name) {
         List<Product> products = productService.searchByName(name);
@@ -67,6 +71,7 @@ public class ProductController {
             @ApiResponse(responseCode = "200", description = "Product successfully found"),
             @ApiResponse(responseCode = "404", description = "Product not found with the provided ID")
     })
+    @PreAuthorize("hasAnyRole('ADMIN', 'CLIENT')")
     @GetMapping(value = "/{id}", headers = "X-API-Version=v1")
     public ResponseEntity<Product> findProductById(@PathVariable Long id) {
         Optional<Product> product = productService.findById(id);
@@ -79,6 +84,7 @@ public class ProductController {
             @ApiResponse(responseCode = "200", description = "Product successfully updated"),
             @ApiResponse(responseCode = "404", description = "Product not found")
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(value = "/{id}", headers = "X-API-Version=v1")
     public ResponseEntity<Product> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDTO dto) {
         Product updatedProduct = productService.updateProduct(id, dto);
@@ -93,6 +99,7 @@ public class ProductController {
             @ApiResponse(responseCode = "200", description = "Product partially updated successfully"),
             @ApiResponse(responseCode = "404", description = "Product not found")
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping(value = "/{id}", headers = "X-API-Version=v1")
     public ResponseEntity<Product> partiallyUpdateProduct(@PathVariable Long id, @Valid @RequestBody ProductDTO dto) {
         Product product = productService.partialUpdate(id, dto);
@@ -108,6 +115,7 @@ public class ProductController {
             @ApiResponse(responseCode = "204", description = "Product successfully deleted"),
             @ApiResponse(responseCode = "404", description = "Product not found")
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "/{id}", headers = "X-API-Version=v1")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         boolean deleted = productService.deleteProduct(id);

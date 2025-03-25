@@ -14,10 +14,11 @@ public class JwtUtil {
     private static final String SECRET_KEY = "HLDXWs3l-Qo87DRyMDjvjzUUCIfDp_ctZHKnEqzb4pU";
     private static final SecretKey SECRET_KEY_SPEC = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
 
-    public String generateToken(String username) {
-        long EXPIRATION_TIME = 3600000; // 1 hour
+    public String generateToken(String username, String role) {
+        long EXPIRATION_TIME = 3600000;
         return Jwts.builder()
                 .setSubject(username)
+                .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SECRET_KEY_SPEC, Jwts.SIG.HS256)
@@ -35,6 +36,16 @@ public class JwtUtil {
             return false;
         }
     }
+
+    public String getRoleFromToken(String token) {
+        return Jwts.parser()
+                .verifyWith(SECRET_KEY_SPEC)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("role", String.class);
+    }
+
 
     public String getUsernameFromToken(String token) {
         return Jwts.parser()

@@ -20,7 +20,7 @@ public class AuthService {
         this.authenticationManager = authenticationManager;
     }
 
-    public String login(String email, String password) {
+    public String login(String email, String password, String role) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password)
         );
@@ -29,6 +29,6 @@ public class AuthService {
             throw new BadCredentialsException("Invalid credentials");
         }
 
-        return jwtUtil.generateToken(email);
+        return jwtUtil.generateToken(email, role);
     }
 }
