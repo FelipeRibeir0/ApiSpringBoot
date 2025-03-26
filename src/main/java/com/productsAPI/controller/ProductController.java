@@ -29,7 +29,7 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "Invalid data provided for the product"),
             @ApiResponse(responseCode = "409", description = "Product already exists with the provided data")
     })
-    @PreAuthorize("hasAnyRole('ADMIN', 'CLIENT')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(headers = "X-API-Version=v1")
     public ResponseEntity<Product> createProduct(@Valid @RequestBody ProductDTO dto) {
         Product savedProduct = productService.saveProduct(dto);
