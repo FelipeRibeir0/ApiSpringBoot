@@ -13,10 +13,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -41,23 +44,17 @@ public class AuthController {
     })
     @PostMapping(value = "/login", headers = "X-API-Version=v1")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
-        User user = userService.findByEmail(loginRequest.getEmail());
-
         try {
-            if (user == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
-            }
-
+            User user = userService.findByEmail(loginRequest.getEmail());
             if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
             }
 
             String role = user.getRole().name();
-
             String token = jwtUtil.generateToken(user.getEmail(), role);
-            System.out.println("Generated token: " + token);
 
-            return ResponseEntity.ok(token);
+            return ResponseEntity.ok(Map.of("token", token).toString());
+
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Error during authentication");
         }

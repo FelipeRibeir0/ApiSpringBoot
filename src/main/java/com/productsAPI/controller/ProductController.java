@@ -29,7 +29,7 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "Invalid data provided for the product"),
             @ApiResponse(responseCode = "409", description = "Product already exists with the provided data")
     })
-    @PreAuthorize("hasRole('CLIENT')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'CLIENT')")
     @PostMapping(headers = "X-API-Version=v1")
     public ResponseEntity<Product> createProduct(@Valid @RequestBody ProductDTO dto) {
         Product savedProduct = productService.saveProduct(dto);
@@ -41,7 +41,7 @@ public class ProductController {
             @ApiResponse(responseCode = "200", description = "Product list successfully returned"),
             @ApiResponse(responseCode = "404", description = "No products found")
     })
-    @PreAuthorize("hasAnyRole('CLIENT')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'CLIENT')")
     @GetMapping(headers = "X-API-Version=v1")
     public ResponseEntity<List<Product>> listProducts() {
         List<Product> products = productService.listAll();
