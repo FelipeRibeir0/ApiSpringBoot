@@ -13,8 +13,7 @@
 </h1>
 
 <p align="center">
-  Uma API RESTful desenvolvida com Spring Boot para gerenciamento de produtos. Essa aplicação foi projetada para operações básicas de CRUD (Create, Read, Update e Delete) utilizando Java 21, banco de dados MySQL e as melhores práticas do Spring Framework.
-</p>
+Uma API RESTful robusta, desenvolvida com Spring Boot, para o gerenciamento eficiente de produtos. Projetada para realizar operações completas de CRUD (Create, Read, Update e Delete), a aplicação utiliza Java 21, MySQL como banco de dados e segue as melhores práticas do Spring Framework, garantindo desempenho, segurança e escalabilidade.</p>
 
 <p align="center">
   <br />
@@ -33,6 +32,7 @@ Essa API permite:
 - Atualizar total ou parcialmente produtos existentes.
 - Excluir produtos do banco de dados.
 - Criar usuários e autenticar-se via JWT.
+- Promover usuários para administradores.
 
 Foi implementada usando Spring Data JPA para abstrair as operações de banco de dados e um banco persistente MySQL. A API é totalmente documentada no arquivo README e no Swagger.
 
@@ -114,26 +114,32 @@ Após rodar a aplicação, a documentação do Swagger estará disponível na se
 
 ### 🛒 Gerenciamento de Produtos
 
-| Método | Endpoint          | Descrição |
-|--------|------------------|-----------|
+| Método | Endpoint          | Descrição                                                                           |
+|--------|------------------|-------------------------------------------------------------------------------------|
 | GET    | `/products`      | Retorna a lista de todos os products. Aceita um parâmetro opcional de busca por nome. |
-| GET    | `/products/{id}` | Retorna os detalhes de um product específico pelo ID. |
-| GET    | `/products/search`| Retorna os detalhes de um produto específico pelo Nome. |
-| POST   | `/products`      | Cria um novo product no sistema (requer autenticação). |
-| PUT    | `/products/{id}` | Atualiza completamente as informações de um product existente (requer autenticação). |
-| PATCH  | `/products/{id}` | Atualiza parcialmente as informações de um product existente (requer autenticação). |
-| DELETE | `/products/{id}` | Exclui um product do sistema pelo ID (requer autenticação). |
+| GET    | `/products/{id}` | Retorna os detalhes de um product específico pelo ID.                               |
+| GET    | `/products/search`| Retorna os detalhes de um produto específico pelo Nome.                             |
+| POST   | `/products`      | Cria um novo product no sistema (requer ADMIN).                                     |
+| PUT    | `/products/{id}` | Atualiza completamente as informações de um product existente (requer ADMIN).       |
+| PATCH  | `/products/{id}` | Atualiza parcialmente as informações de um product existente (requer ADMIN).        |
+| DELETE | `/products/{id}` | Exclui um product do sistema pelo ID (requer ADMIN).                                |
+
+### 🔧 Administração
+
+| Método | Endpoint                   | Descrição                                                 |
+|--------|---------------------------|-----------------------------------------------------------|
+| PUT    | `/admin/promote/{userId}` | Promove um usuário para a role ADMIN (requer role ADMIN). |
 
 ---
 
 ## 🛠️ Técnicas e Tecnologias Utilizadas
 
-  - <b>Spring Boot:</b> Framework principal da aplicação.<br />
-  - <b>Spring Security:</b> Implementação de autenticação e autorização.<br />
-  - <b>JWT (JSON Web Token):</b> Gerenciamento de autenticação.<br />
-  - <b>Spring Data JPA:</b> Gerenciamento de dados usando ORM.<br />
-  - <b>Banco de Dados MySQL:</b> Banco de dados persistente.<br />
-  - <b>Java 21:</b> Linguagem utilizada.<br />
+- <b>Spring Boot:</b> Framework principal da aplicação.<br />
+- <b>Spring Security:</b> Implementação de autenticação e autorização.<br />
+- <b>JWT (JSON Web Token):</b> Gerenciamento de autenticação.<br />
+- <b>Spring Data JPA:</b> Gerenciamento de dados usando ORM.<br />
+- <b>Banco de Dados MySQL:</b> Banco de dados persistente.<br />
+- <b>Java 21:</b> Linguagem utilizada.<br />
 
 ---
 
@@ -153,9 +159,8 @@ src
 
 # Considerações Finais
 
-Esta API foi desenvolvida como um exemplo prático para quem está aprendendo Spring Boot. Ela é simples, funcional e facilmente extensível.
+Esta API foi desenvolvida como um exemplo prático para aprender Spring Boot. Ela é simples, funcional e facilmente extensível.
 
 Possíveis melhorias futuras:
 
 - 🧪 Adicionar testes unitários e de integração.
-
