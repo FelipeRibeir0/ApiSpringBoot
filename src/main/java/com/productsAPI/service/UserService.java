@@ -40,12 +40,15 @@ public class UserService {
     public void promoteToAdmin(Long userId) {
         UserDetails currentUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (currentUser.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"))) {
-            throw new RuntimeException("Você não tem permissão para promover usuários.");
+        boolean isAdmin = currentUser.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+
+        if (!isAdmin) {
+            throw new RuntimeException("You are not allowed to promote users.");
         }
 
         User userToPromote = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new RuntimeException("User not found."));
 
         userToPromote.setRole(User.Role.ADMIN);
         userRepository.save(userToPromote);
@@ -55,6 +58,6 @@ public class UserService {
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found."));
     }
 }
