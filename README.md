@@ -21,30 +21,37 @@ Uma API RESTful robusta, desenvolvida com Spring Boot, para o gerenciamento efic
 height="350"   
 />
 </p>
+---
+
+## 🚀 Funcionalidades
+
+- Cadastro e autenticação de usuários
+- ✅ **Gerenciamento de produtos**: criação, leitura, atualização e remoção.
+- 🔍 **Busca de produtos por nome ou ID**.
+- 🔑 **Autenticação e autorização com JWT**.
+- 👥 **Gerenciamento de usuários** (cadastro, login e promoção para ADMIN).
+- 📜 **Documentação interativa com Swagger**.
 
 ---
 
-## 🚀 Descrição Geral
+## 🛠️ Tecnologias Utilizadas
 
-Essa API permite:
-- Criar novos produtos no sistema.
-- Buscar todos os produtos, buscar um produto específico por ID ou pelo nome.
-- Atualizar total ou parcialmente produtos existentes.
-- Excluir produtos do banco de dados.
-- Criar usuários e autenticar-se via JWT.
-- Promover usuários para administradores.
-
-Foi implementada usando Spring Data JPA para abstrair as operações de banco de dados e um banco persistente MySQL. A API é totalmente documentada no arquivo README e no Swagger.
+- **Java 21** - Linguagem principal do projeto.
+- **Spring Boot** - Framework para desenvolvimento eficiente.
+- **Spring Security + JWT** - Autenticação e autorização seguras.
+- **Spring Data JPA** - Persistência de dados simplificada.
+- **MySQL** - Banco de dados relacional.
+- **Swagger** - Documentação interativa da API.
+- **JUnit e Mockito** - (Testes unitários)
 
 ---
 
-## 🛠️ Autenticação com JWT
+## 🔐 Autenticação com JWT
 
-A API utiliza **JSON Web Token (JWT)** para autenticação e autorização. Para acessar endpoints protegidos, siga os passos abaixo:
+A API utiliza **JSON Web Token (JWT)** para proteger endpoints.
 
-### 1️⃣ Criar um novo usuário
-
-Faça uma requisição **POST** para `/auth/signup` enviando um JSON com os dados do usuário:
+### 1️⃣ Criar um usuário
+**POST** `/auth/signup`
 
 ```json
 {
@@ -55,11 +62,8 @@ Faça uma requisição **POST** para `/auth/signup` enviando um JSON com os dado
 }
 ```
 
-Se bem-sucedido, o usuário será criado e retornado no response.
-
-### 2️⃣ Autenticar e obter um token JWT
-
-Faça uma requisição **POST** para `/auth/login` enviando email e senha:
+### 2️⃣ Login e obtenção do token
+**POST** `/auth/login`
 
 ```json
 {
@@ -68,99 +72,122 @@ Faça uma requisição **POST** para `/auth/login` enviando email e senha:
 }
 ```
 
-A resposta conterá um token JWT:
-
+Resposta:
 ```json
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
 ```
 
-### 3️⃣ Usar o token para acessar endpoints protegidos
-
-Inclua o token no **Header** da requisição:
-
+### 3️⃣ Acessar endpoints protegidos
+Inclua o token no **Header**:
 ```
 Authorization: Bearer SEU_TOKEN_AQUI
 ```
 
-Agora você pode acessar os endpoints protegidos da API.
+---
+
+## 📄 Documentação Swagger
+
+A API conta com uma documentação interativa via Swagger. Para acessá-la:
+
+📌 **URL:** [Swagger UI](http://localhost:8080/documentacao)
+
+1. Inicie a aplicação.
+2. Acesse o link acima no navegador.
+3. Explore e teste os endpoints diretamente na interface.
 
 ---
 
-# 📄 Documentação da API
-
-Este projeto disponibiliza uma API que pode ser acessada e testada diretamente através da documentação gerada pelo Swagger.
-
-## Acessando a documentação Swagger
-
-Após rodar a aplicação, a documentação do Swagger estará disponível na seguinte URL:
-[Swagger](http://localhost:8080/documentacao)
-
-### Passos para acessar a documentação:
-
-1. Certifique-se de que o projeto está rodando localmente ou em um ambiente de desenvolvimento.
-2. Abra seu navegador e acesse a URL: http://localhost:8080/documentacao
-3. Você verá a interface gráfica do Swagger UI, onde poderá explorar todos os endpoints da API e fazer chamadas de teste diretamente pela interface.
-
----
-
-## 🌐 Endpoints da API
+## 🌐 Endpoints Principais
 
 ### 🔐 Autenticação
 
 | Método | Endpoint         | Descrição |
 |--------|-----------------|-----------|
 | POST   | `/auth/signup`  | Cria um novo usuário |
-| POST   | `/auth/login`   | Autentica o usuário e retorna um token JWT |
+| POST   | `/auth/login`   | Retorna um token JWT após login |
 
-### 🛒 Gerenciamento de Produtos
+### 🛒 Produtos
 
-| Método | Endpoint          | Descrição                                                                           |
-|--------|------------------|-------------------------------------------------------------------------------------|
-| GET    | `/products`      | Retorna a lista de todos os products. Aceita um parâmetro opcional de busca por nome. |
-| GET    | `/products/{id}` | Retorna os detalhes de um product específico pelo ID.                               |
-| GET    | `/products/search`| Retorna os detalhes de um produto específico pelo Nome.                             |
-| POST   | `/products`      | Cria um novo product no sistema (requer ADMIN).                                     |
-| PUT    | `/products/{id}` | Atualiza completamente as informações de um product existente (requer ADMIN).       |
-| PATCH  | `/products/{id}` | Atualiza parcialmente as informações de um product existente (requer ADMIN).        |
-| DELETE | `/products/{id}` | Exclui um product do sistema pelo ID (requer ADMIN).                                |
+| Método | Endpoint          | Descrição |
+|--------|------------------|-----------|
+| GET    | `/products`      | Lista todos os produtos (com busca por nome opcional) |
+| GET    | `/products/{id}` | Busca um produto pelo ID |
+| POST   | `/products`      | Cadastra um novo produto (requer ADMIN) |
+| PUT    | `/products/{id}` | Atualiza um produto por completo (requer ADMIN) |
+| PATCH  | `/products/{id}` | Atualiza parcialmente um produto (requer ADMIN) |
+| DELETE | `/products/{id}` | Exclui um produto (requer ADMIN) |
 
 ### 🔧 Administração
 
-| Método | Endpoint                   | Descrição                                                 |
-|--------|---------------------------|-----------------------------------------------------------|
-| PUT    | `/admin/promote/{userId}` | Promove um usuário para a role ADMIN (requer role ADMIN). |
-
----
-
-## 🛠️ Técnicas e Tecnologias Utilizadas
-
-- <b>Spring Boot:</b> Framework principal da aplicação.<br />
-- <b>Spring Security:</b> Implementação de autenticação e autorização.<br />
-- <b>JWT (JSON Web Token):</b> Gerenciamento de autenticação.<br />
-- <b>Spring Data JPA:</b> Gerenciamento de dados usando ORM.<br />
-- <b>Banco de Dados MySQL:</b> Banco de dados persistente.<br />
-- <b>Java 21:</b> Linguagem utilizada.<br />
+| Método | Endpoint                   | Descrição |
+|--------|---------------------------|-----------|
+| PUT    | `/admin/promote/{userId}` | Promove um usuário para ADMIN (requer ADMIN) |
 
 ---
 
 ## 📂 Estrutura do Projeto
 
-```🌐
-src
-├── main/
-│   ├── 📂 java/com/productsAPI/
-│   │   ├── 📂 Controller        [Definições de rotas e lógica básica da API]
-│   │   ├── 📂 Service           [Regras de negócio e validações]
-│   │   ├── 📂 Model             [Modelos de dados (Entidades)]
-│   │   ├── 📂 Repository        [Repositórios para abstração de acesso ao banco de dados]
-│   └── 📂 resources/
-│       └── 📂 static/ 
+```plaintext
+src/
+├── main/java/com/productsAPI/
+│   ├── 📂 Controller   -> Definições de rotas e lógica básica da API
+│   ├── 📂 Service      -> Regras de negócio e validações
+│   ├── 📂 Model        -> Modelos de dados (Entidades)
+│   ├── 📂 Repository   -> Acesso ao banco de dados
+│   ├── 📂 Security     -> Configuração da autenticação JWT
+│   ├── 📂 DTO          -> Transferência de dados entre camadas
+└── resources/
+    ├── application.properties  -> Configuração do banco e autenticação
+    └── static/
 ```
 
-# Considerações Finais
+---
 
-Esta API foi desenvolvida como um exemplo prático para aprender Spring Boot. Ela é simples, funcional e facilmente extensível.
+## 📌 Como Executar o Projeto
 
-Possíveis melhorias futuras:
+### ✅ Pré-requisitos
 
-- 🧪 Adicionar testes unitários e de integração.
+- **Java 21** instalado
+- **MySQL** rodando localmente
+- **Maven** configurado
+
+### ▶️ Rodando a API
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/FelipeRibeir0/ApiSpringBoot.git
+   ```
+2. Configure o banco MySQL no `application.properties`.
+3. Execute o projeto:
+   ```bash
+   mvn spring-boot:run
+   ```
+4. Acesse `http://localhost:8080/documentacao` para explorar a API no Swagger.
+
+---
+
+## 📌 Melhorias Futuras
+
+- ✅ Ampliar a cobertura de **testes unitários** para garantir **mais robustez** ao código.
+- ✅ Implementar **testes de integração** para validar a comunicação entre os componentes.
+- ✅ Criar um **deploy online** para facilitar demonstrações da API.
+- ✅ Melhorar a estrutura dos **DTOs** para maior separação de responsabilidades.
+- ✅ Adicionar logs com **Spring Boot Actuator** para melhor monitoramento da aplicação.
+
+---
+
+## 🤝 Contribuições
+
+Sugestões **são bem-vindas!** Sinta-se à vontade para abrir um issue.
+
+### 📌 **Autor:** [Felipe Ribeiro](https://github.com/FelipeRibeir0)
+
+📧 **Contato:** felipecorreiaribeiro@email.com
+[Meu Linkedin](https://www.linkedin.com/in/felipe-correia-ribeiro/)
+---
+
+## 📌 **Sobre o Projeto**
+
+Este projeto foi desenvolvido como um estudo prático de Spring Boot, aplicando conceitos essenciais de APIs RESTful, autenticação e segurança. Ele pode ser expandido com novas funcionalidades, como cache, testes de integração e melhorias de performance.
